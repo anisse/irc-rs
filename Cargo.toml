@@ -43,6 +43,7 @@ tls-rust = ["tokio-rustls", "webpki-roots", "rustls-pemfile"]
 
 [dependencies]
 chrono = { version = "0.4.24", default-features = false, features = ["clock", "std"] }
+base64ct = { version = "1.6.0", features = ["std"] }
 encoding = "0.2.33"
 futures-util = { version = "0.3.30", default-features = false, features = ["alloc", "sink"] }
 irc-proto = { version = "1.0.0", path = "irc-proto" }
