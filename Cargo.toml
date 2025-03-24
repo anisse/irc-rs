@@ -1,7 +1,7 @@
 [package]
 name = "irc"
-version = "1.0.0"
-authors = ["Aaron Weiss <aweiss@hey.com>"]
+version = "1.1.0"
+authors = ["Ariel Weiss <aweiss@hey.com>"]
 edition = "2018"
 rust-version = "1.71"
 description = "the irc crate – usable, async IRC for Rust"
@@ -20,7 +20,7 @@ is-it-maintained-open-issues = { repository = "aatxe/irc" }
 
 
 [workspace]
-members = [ "./", "irc-proto/" ]
+members = ["./", "irc-proto/"]
 
 
 [features]
@@ -38,13 +38,24 @@ yaml = ["yaml_config"]
 proxy = ["tokio-socks"]
 
 tls-native = ["native-tls", "tokio-native-tls"]
-tls-rust = ["rustls-native-certs", "rustls-pemfile", "tokio-rustls", "webpki-roots"]
+tls-rust = [
+    "rustls-native-certs",
+    "rustls-pemfile",
+    "tokio-rustls",
+    "webpki-roots",
+]
 encoding = ["dep:encoding", "irc-proto/encoding"]
 
 [dependencies]
-chrono = { version = "0.4.24", default-features = false, features = ["clock", "std"] }
+chrono = { version = "0.4.24", default-features = false, features = [
+    "clock",
+    "std",
+] }
 encoding = { version = "0.2.33", optional = true }
-futures-util = { version = "0.3.30", default-features = false, features = ["alloc", "sink"] }
+futures-util = { version = "0.3.30", default-features = false, features = [
+    "alloc",
+    "sink",
+] }
 irc-proto = { version = "1.0.0", path = "irc-proto" }
 log = "0.4.21"
 parking_lot = "0.12.1"
@@ -78,7 +89,13 @@ args = "2.2.0"
 env_logger = "0.11.0"
 futures = "0.3.30"
 getopts = "0.2.21"
-tokio = { version = "1.27.0", features = ["rt", "rt-multi-thread", "macros", "net", "time"] }
+tokio = { version = "1.27.0", features = [
+    "rt",
+    "rt-multi-thread",
+    "macros",
+    "net",
+    "time",
+] }
 
 
 [[example]]

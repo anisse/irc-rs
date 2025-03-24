@@ -1,7 +1,7 @@
 [package]
 name = "irc-proto"
-version = "1.0.0"
-authors = ["Aaron Weiss <aweiss@hey.com>"]
+version = "1.1.0"
+authors = ["Ariel Weiss <aweiss@hey.com>"]
 edition = "2018"
 rust-version = "1.60"
 description = "The IRC protocol distilled."
