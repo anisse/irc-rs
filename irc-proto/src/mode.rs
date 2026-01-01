@@ -17,7 +17,7 @@ pub trait ModeType: fmt::Display + fmt::Debug + Clone + PartialEq {
 }
 
 /// User modes for the MODE command.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum UserMode {
     /// a - user is flagged as away
     Away,
@@ -89,7 +89,7 @@ impl fmt::Display for UserMode {
 }
 
 /// Channel modes for the MODE command.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum ChannelMode {
     /// b - ban the user from joining or speaking in the channel
     Ban,
@@ -238,6 +238,24 @@ where
     pub fn no_prefix(inner: T) -> Mode<T> {
         Mode::NoPrefix(inner)
     }
+
+    /// Gets the mode flag associated with this mode with a + or - prefix as needed.
+    pub fn flag(&self) -> String {
+        match self {
+            Mode::Plus(mode, _) => format!("+{}", mode),
+            Mode::Minus(mode, _) => format!("-{}", mode),
+            Mode::NoPrefix(mode) => mode.to_string(),
+        }
+    }
+
+    /// Gets the arg associated with this mode, if any. Only some channel modes support arguments,
+    /// e.g. b (ban) or o (oper).
+    pub fn arg(&self) -> Option<&str> {
+        match self {
+            Mode::Plus(_, arg) | Mode::Minus(_, arg) => arg.as_deref(),
+            _ => None,
+        }
+    }
 }
 
 impl<T> fmt::Display for Mode<T>
@@ -246,11 +264,10 @@ where
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Mode::Plus(ref mode, Some(ref arg)) => write!(f, "+{} {}", mode, arg),
-            Mode::Minus(ref mode, Some(ref arg)) => write!(f, "-{} {}", mode, arg),
-            Mode::Plus(ref mode, None) => write!(f, "+{}", mode),
-            Mode::Minus(ref mode, None) => write!(f, "-{}", mode),
-            Mode::NoPrefix(ref mode) => write!(f, "{}", mode),
+            Mode::Plus(_, Some(ref arg)) | Mode::Minus(_, Some(ref arg)) => {
+                write!(f, "{} {}", self.flag(), arg)
+            }
+            _ => write!(f, "{}", self.flag()),
         }
     }
 }
