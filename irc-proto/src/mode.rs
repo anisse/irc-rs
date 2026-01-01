@@ -17,7 +17,7 @@ pub trait ModeType: fmt::Display + fmt::Debug + Clone + PartialEq {
 }
 
 /// User modes for the MODE command.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum UserMode {
     /// a - user is flagged as away
     Away,
@@ -89,7 +89,7 @@ impl fmt::Display for UserMode {
 }
 
 /// Channel modes for the MODE command.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum ChannelMode {
     /// b - ban the user from joining or speaking in the channel
     Ban,
